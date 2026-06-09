@@ -321,7 +321,7 @@ end
 end
 
 @testset "versions" begin
-    @test ALGLIB.ALGLIB_JL_VERSION_STRING == "1.0.0"
+    @test ALGLIB.ALGLIB_JL_VERSION_STRING == "1.0.1"
     @test ALGLIB.ALGLIB_JL_VERSION == VersionNumber(ALGLIB.ALGLIB_JL_VERSION_STRING)
     @test ALGLIB.ALGLIB_SOLVER_BINARY_VERSION_STRING == "0001"
     exe_extension = Sys.iswindows() ? ".exe" : ""
