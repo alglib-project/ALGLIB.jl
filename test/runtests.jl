@@ -326,6 +326,7 @@ end
     @test ALGLIB.ALGLIB_SOLVER_BINARY_VERSION_STRING == "0001"
     exe_extension = Sys.iswindows() ? ".exe" : ""
     minimum_solver_version = string(0, ".", lpad(0, 2, '0'), ".", 1)
+    @test ALGLIB._regex_escape(".exe") == "\\.exe"
     @test ALGLIB.solver_version_string("alglib4nl-0001-$(ALGLIB.ALGLIB_PLATFORM_SUFFIX)$(exe_extension)") ==
           minimum_solver_version
     @test ALGLIB.solver_version_string("alglib4nl-0010-$(ALGLIB.ALGLIB_PLATFORM_SUFFIX)$(exe_extension)") ==
@@ -692,7 +693,12 @@ end
 
 @testset "ALGLIB_NLPATH" begin
     dir = mktempdir()
-    path = joinpath(dir, ALGLIB.executable_name())
+    bounds = ALGLIB.license_version_bounds()
+    binary_version = max(parse(Int, ALGLIB.ALGLIB_SOLVER_BINARY_VERSION_STRING), bounds.minver)
+    binary_version_string = lpad(string(binary_version), 4, '0')
+    exe_extension = Sys.iswindows() ? ".exe" : ""
+    executable_name = "alglib4nl-$(binary_version_string)-$(ALGLIB.ALGLIB_PLATFORM_SUFFIX)$(exe_extension)"
+    path = joinpath(dir, executable_name)
     write(path, "#!/bin/sh\nexit 0\n")
     chmod(path, 0o755)
     old_exec = get(ENV, "ALGLIB_EXEC", nothing)
@@ -703,10 +709,10 @@ end
         @test ALGLIB.executable_path() == abspath(path)
         @test ALGLIB.binary_info().source == :ALGLIB_NLPATH
         @test ALGLIB.binary_info().solver_version_string ==
-              ALGLIB.solver_version_string(ALGLIB.executable_name())
+              ALGLIB.solver_version_string(executable_name)
         @test ALGLIB.binary_info().wrapper_version_string ==
               ALGLIB.ALGLIB_JL_VERSION_STRING
-        @test ALGLIB.binary_info().solver_binary_version_string == "0001"
+        @test ALGLIB.binary_info().solver_binary_version_string == binary_version_string
     finally
         old_exec === nothing ? delete!(ENV, "ALGLIB_EXEC") : (ENV["ALGLIB_EXEC"] = old_exec)
         old_nlpath === nothing ? delete!(ENV, "ALGLIB_NLPATH") : (ENV["ALGLIB_NLPATH"] = old_nlpath)

@@ -148,7 +148,7 @@ function _check_executable(path::AbstractString)
 end
 
 function _regex_escape(value::AbstractString)
-    return replace(value, r"([\\\^\$\.\|\?\*\+\(\)\[\]\{\}])" => m -> "\\" * m.match)
+    return replace(value, r"([\\\^\$\.\|\?\*\+\(\)\[\]\{\}])" => s -> "\\" * String(s))
 end
 
 function _candidate_executable_regex()
