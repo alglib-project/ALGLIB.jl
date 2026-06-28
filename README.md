@@ -161,11 +161,10 @@ Below we show how to activate a JuMP wrapper, connect it to the solver binary, a
 ```
 #
 # First, we need to add JuMP wrapper for ALGLIB to your environment
-# We can either add Github repo (internet access is needed) or local copy
 #
 import Pkg
 Pkg.add("JuMP")
-Pkg.add(url = "https://github.com/alglib-project/ALGLIB.jl")
+Pkg.add("ALGLIB")
 using JuMP
 using ALGLIB
 
@@ -272,7 +271,7 @@ ALGLIB supports several standard MOI parameters:
 #
 import Pkg
 Pkg.add("JuMP")
-Pkg.add(url = "https://github.com/alglib-project/ALGLIB.jl")
+Pkg.add("ALGLIB")
 using JuMP
 using ALGLIB
 ALGLIB.set_solver_dir!("/permanent/path/to/alglib-solver")
@@ -323,7 +322,7 @@ Recommended values are in *8..64* range, with *0* meaning some default value bei
 ```
 import Pkg
 Pkg.add("JuMP")
-Pkg.add(url = "https://github.com/alglib-project/ALGLIB.jl")
+Pkg.add("ALGLIB")
 using JuMP
 using ALGLIB
 ALGLIB.set_solver_dir!("/permanent/path/to/alglib-solver")
