@@ -28,7 +28,7 @@ ALGLIB Solver is the optimization-only subset of ALGLIB for users who model prob
 instead of calling the full ALGLIB native APIs directly from C++/C#/etc.
 It is a binary solver package with all performance features enabled, including SIMD acceleration and robust out-of-the-box parallel execution.
 
-The solver is presently available under x64 Windows and Linux platforms, from JuMP environment or as a part of .nl-based workflow.
+The solver is presently available under x64 Windows and x64/ARM64 Linux platforms, from JuMP environment or as a part of .nl-based workflow.
 
 <a id="alglib_solver_problem_types"></a>
 
@@ -178,7 +178,7 @@ using ALGLIB
 #
 # * specify full name/path of the solver executable with e.g.
 #   ALGLIB.set_solver_exec!("/permanent/path/to/alglib-solver/alglib4nl-4080-linux64")
-#   (choose name that matches your solver version and OS)
+#   (choose a name that matches your solver version and platform; Linux ARM64 uses the `linuxarm64` suffix)
 #
 # * specify path to directory where multiple executables are located with
 #   ALGLIB.set_solver_dir!("/permanent/path/to/alglib-solver")
@@ -238,10 +238,10 @@ This option is not included into ALGLIB.jl wrapper because on POSIX systems it n
 You shall perform it by directly invoking ALGLIB Solver binary:
 
 ```
-sudo /path/to/alglib4nl-WXYX-linux64 --install-system-wide-license /path/to/alglib-token.lic
+sudo /path/to/alglib4nl-WXYZ-PLATFORM --install-system-wide-license /path/to/alglib-token.lic
 ```
 
-Above *WXYZ* is a solver version string (e.g. 4080 for 4.08.0, 4081 for 4.08.1 and so on). After calling it once, every user on the machine will be able to use the token.
+Above *WXYZ* is a solver version string (e.g. 4080 for 4.08.0, 4081 for 4.08.1 and so on), and *PLATFORM* is `linux64` or `linuxarm64`. After calling it once, every user on the machine will be able to use the token.
 
 <a id="alglib_solver_using_jump_config"></a>
 

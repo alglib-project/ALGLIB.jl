@@ -320,8 +320,21 @@ end
     end
 end
 
+@testset "platform suffixes" begin
+    @test ALGLIB._platform_suffix(:Linux, :x86_64, 64) == "linux64"
+    @test ALGLIB._platform_suffix(:Linux, :aarch64, 64) == "linuxarm64"
+    @test ALGLIB._platform_suffix(:Linux, :i686, 32) == "linux32"
+    @test ALGLIB._platform_suffix(:Windows, :x86_64, 64) == "win64"
+    @test ALGLIB._platform_suffix(:Windows, :i686, 32) == "win32"
+    @test ALGLIB._platform_suffix(:Darwin, :aarch64, 64) == "osxarm64"
+    @test ALGLIB._platform_suffix(:Darwin, :x86_64, 64) == "osx64"
+    @test ALGLIB._platform_suffix(:FreeBSD, :x86_64, 64) == "FreeBSD64"
+    @test ALGLIB.ALGLIB_PLATFORM_SUFFIX ==
+          ALGLIB._platform_suffix(Sys.KERNEL, Sys.ARCH, Sys.WORD_SIZE)
+end
+
 @testset "versions" begin
-    @test ALGLIB.ALGLIB_JL_VERSION_STRING == "1.0.1"
+    @test ALGLIB.ALGLIB_JL_VERSION_STRING == "1.0.3"
     @test ALGLIB.ALGLIB_JL_VERSION == VersionNumber(ALGLIB.ALGLIB_JL_VERSION_STRING)
     @test ALGLIB.ALGLIB_SOLVER_BINARY_VERSION_STRING == "0001"
     exe_extension = Sys.iswindows() ? ".exe" : ""

@@ -14,16 +14,21 @@ struct _PreferenceCleared end
 const _PREFERENCE_ABSENT = _PreferenceAbsent()
 const _PREFERENCE_CLEARED = _PreferenceCleared()
 
-function _platform_suffix()
-    if Sys.islinux()
-        return Sys.WORD_SIZE == 64 ? "linux64" : "linux32"
-    elseif Sys.iswindows()
-        return Sys.WORD_SIZE == 64 ? "win64" : "win32"
-    elseif Sys.isapple()
-        return Sys.ARCH == :aarch64 ? "osxarm64" : "osx64"
+function _platform_suffix(kernel::Symbol, arch::Symbol, word_size::Integer)
+    if kernel == :Linux
+        if arch == :aarch64
+            return "linuxarm64"
+        end
+        return word_size == 64 ? "linux64" : "linux32"
+    elseif kernel == :Windows
+        return word_size == 64 ? "win64" : "win32"
+    elseif kernel == :Darwin
+        return arch == :aarch64 ? "osxarm64" : "osx64"
     end
-    return string(Sys.KERNEL, Sys.WORD_SIZE)
+    return string(kernel, word_size)
 end
+
+_platform_suffix() = _platform_suffix(Sys.KERNEL, Sys.ARCH, Sys.WORD_SIZE)
 
 const ALGLIB_PLATFORM_SUFFIX = _platform_suffix()
 

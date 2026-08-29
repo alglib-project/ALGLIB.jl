@@ -23,7 +23,7 @@ export set_solver_exec!
 export Subsolver
 export SubsolverMemoryLength
 
-const ALGLIB_JL_VERSION_STRING = "1.0.1"
+const ALGLIB_JL_VERSION_STRING = "1.0.3"
 const ALGLIB_JL_VERSION = VersionNumber(ALGLIB_JL_VERSION_STRING)
 
 const ALGLIB_SOLVER_BINARY_VERSION_STRING = "0001"
